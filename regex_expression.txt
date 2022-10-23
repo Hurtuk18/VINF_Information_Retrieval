@@ -1,0 +1,51 @@
+========================================================================================================================
+                                                |Structure of our item|
+========================================================================================================================
+name        --> meno knihy
+author      --> autor knihy
+country     --> krajina
+language    --> jazyk knihy
+series      --> ak je súčasťou série
+genre       --> žáner
+pub_date    --> kedy bola kniha vydaná …. tiež sa môže nachádzať v published
+pages       --> počet strán
+
+========================================================================================================================
+                                                  |Regex attempt #1|
+========================================================================================================================
+number of size 4 --> ^[0-9]{4}
+
+start of infobox = \n^(\{+Infobox\sbook)              ... group 1
+end of infobox = (\n\}+\n+)$                          ... group 1
+    name in the infobox = (\|\sname\s+\=\s)(.+)(\n)   ... group 2
+      --> z toho vyber (\|\sname\s+\=\s)(.*)([^<]<)
+    ^(\|\sauthor\s+\=\s+)(.*)(\n)                     ... group 2
+      --> ([^\[]\[+)(.*)                              ... group 2 + pridaj replace na "]" za ""
+    ^(\|\scountry\s+\=\s+)(.*)(\n)                    ... group 2
+    ^(\|\slanguage\s+\=\s+)(.*)(\n)                   ... group 2
+    ^(\|\sseries\s+\=\s+)(.*)(\n)                     ... group 2 + pridaj replace na ("]", "[", "'") za ""
+    ^(\|\sgenre\s+\=\s+)(.*)(\n)                      ... group 2 + pridaj replace na ("]", "[") za ""
+
+========================================================================================================================
+                                                  |Regex attempt #2|
+========================================================================================================================
+
+
+find first occurrence of our regex == re.findall("<our regex>", <our input string where we want to use regex>)[0]
+
+name --> ak tam je "<" ... (?<=\= )(.*)(?=\<)
+     --> ak tam nie je ... (?<=\= )(.*)(?=\n)
+
+ # dá sa sem pridať ešte prípad, ked sa tam nebude nachádzať ani jeden z tých znakov? teda ak tam bude len náš
+ konkrétny výsledok?
+
+author  --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
+        --> ak tam nie je (?<=\= )(.*)(?=\n)
+country --> (?<=\= )(.*)(?=\n)
+language --> (?<=\= )(.*)(?=\n)
+series --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
+       --> ak tam nie je (?<=\= )(.*)(?=\n)
+genre --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
+      --> ak tam nie je (?<=\= )(.*)(?=\n)
+pub_date or published --> (\d{4})(.*?) ... daj sem len first occurrence
+pages --> (\d{1,4})(.*?) ... daj sem len first occurrence
