@@ -31,41 +31,50 @@ class WikiParserRegex:
 
     def create_record(self):
         LIST_OF_BOOKS.append({
-            'name': '',
-            'author': '',
-            'country': '',
-            'language': '',
-            'series': '',
-            'genre': '',
-            'pub_date': '',
-            'pages': ''
+            'name': [],
+            'author': [],
+            'country': [],
+            'language': [],
+            'series': [],
+            'genre': [],
+            'pub_date': [],
+            'pages': []
         })
 
     def append_item_detail(self, line):
         if 'name' in line:
             item = re_exp.regex_name(str(line))
-            LIST_OF_BOOKS[-1]['name'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['name'].append(item)
         elif 'author' in line:
             item = re_exp.regex_other(str(line))
-            LIST_OF_BOOKS[-1]['author'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['author'].append(item)
         elif 'country' in line:
             item = re_exp.regex_plain(str(line))
-            LIST_OF_BOOKS[-1]['country'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['country'].append(item)
         elif 'language' in line:
             item = re_exp.regex_plain(str(line))
-            LIST_OF_BOOKS[-1]['language'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['language'].append(item)
         elif 'series' in line:
             item = re_exp.regex_other(str(line))
-            LIST_OF_BOOKS[-1]['series'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['series'].append(item)
         elif 'genre' in line:
             item = re_exp.regex_other(str(line))
-            LIST_OF_BOOKS[-1]['genre'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['genre'].append(item)
         elif 'pages' in line:
             item = re_exp.regex_pages(str(line))
-            LIST_OF_BOOKS[-1]['pages'] = item
+            if item:
+                LIST_OF_BOOKS[-1]['pages'].append(item)
         elif 'pub_date' in line or 'published' in line or 'release_date' in line or 'publish' in line:
             item = re_exp.regex_pub(str(line))
-            LIST_OF_BOOKS[-1]['pub_date'] = item
+            if item:
+                if not len(LIST_OF_BOOKS[-1]['pub_date']) == 4:
+                    LIST_OF_BOOKS[-1]['pub_date'].append(item)
 
     def open_bz_file(self, path_to_file):
         counter = 0
@@ -80,7 +89,7 @@ class WikiParserRegex:
                 elif "}}" in str(line) and book_found:
                     book_found = False
                     # uncomment this if you want only 2 items from wiki as an example
-                    if counter == 1:
+                    if counter == 5:
                         break
                     counter = counter + 1
                 elif book_found and created_record and line:
@@ -91,4 +100,12 @@ class WikiParserRegex:
 if __name__ == '__main__':
     test = WikiParserRegex()
     test.open_bz_file(WIKI_FILE_PATH_1)
-    print(json.dumps(LIST_OF_BOOKS, indent=3))
+    #print(json.dumps(LIST_OF_BOOKS, indent=3))
+    for book in LIST_OF_BOOKS:
+        if 'genre' in book:
+            for item in book['genre']:
+                for name in item:
+                    if "Science".lower() in name.lower():
+                        print("got ya")
+                    else:
+                        print("fail")
