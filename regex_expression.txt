@@ -30,22 +30,23 @@ end of infobox = (\n\}+\n+)$                          ... group 1
                                                   |Regex attempt #2|
 ========================================================================================================================
 
-
 find first occurrence of our regex == re.findall("<our regex>", <our input string where we want to use regex>)[0]
 
-name --> ak tam je "<" ... (?<=\= )(.*)(?=\<)
-     --> ak tam nie je ... (?<=\= )(.*)(?=\n)
+name                        --> ak tam je "<" ... (?<=\= )(.*)(?=\<)
+                            --> ak tam nie je ... (?<=\= )(.*)(?=\n)
 
  # dá sa sem pridať ešte prípad, ked sa tam nebude nachádzať ani jeden z tých znakov? teda ak tam bude len náš
  konkrétny výsledok?
 
-author  --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
-        --> ak tam nie je (?<=\= )(.*)(?=\n)
-country --> (?<=\= )(.*)(?=\n)
-language --> (?<=\= )(.*)(?=\n)
-series --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
-       --> ak tam nie je (?<=\= )(.*)(?=\n)
-genre --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
-      --> ak tam nie je (?<=\= )(.*)(?=\n)
-pub_date or published --> (\d{4})(.*?) ... daj sem len first occurrence
-pages --> (\d{1,4})(.*?) ... daj sem len first occurrence
+author                      --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
+                            --> ak tam nie je (?<=\= )(.*)(?=\n)
+country                     --> (?<=\= )(.*)(?=\n)
+language                    --> (?<=\= )(.*)(?=\n)
+series                      --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
+                            --> ak tam nie je (?<=\= )(.*)(?=\n)
+genre                       --> ak tam je '[' ... (?<=\[\[)(.*?)(?=[\||\]])
+                            --> ak tam nie je (?<=\= )(.*)(?=\n)
+pub_date or published       --> (\d{4})(.*?) ... daj sem len first occurrence
+pages                       --> (\d{1,4})(.*?) ... daj sem len first occurrence
+
+========================================================================================================================

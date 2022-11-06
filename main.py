@@ -1,8 +1,5 @@
 import bz2
-import re
 import json
-import xmltodict
-import xml.etree.ElementTree as etree
 
 from datetime import datetime
 
@@ -10,6 +7,7 @@ WIKI_FILE_PATH_1 = "src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.b
 WIKI_FILE_PATH_2 = "src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
 START_TIME = ""
 LIST_OF_BOOKS = []
+WIKI_FILE = open("wiki_file_test.txt", "a")
 
 """
 {{Infobox book
@@ -112,13 +110,6 @@ class WikiParser:
             item = self.get_value(line)
             LIST_OF_BOOKS[-1]['pub_date'] = item[-5:].replace(".", "")
 
-        """elif 'publisher' in line:
-            item = self.get_value(line)
-            LIST_OF_BOOKS[-1]['publisher'] = item
-        elif 'pub_date' in line or 'published' in line or 'release_date' in line:
-            item = self.get_value(line)
-            LIST_OF_BOOKS[-1]['pub_date'] = item[-5:].replace(".", "")"""
-
     def open_bz_file(self, path_to_file):
         counter = 0
         with bz2.BZ2File(path_to_file, "r") as xml_file:
@@ -129,53 +120,21 @@ class WikiParser:
                     book_found = True
                     self.create_record()
                     created_record = True
+                    WIKI_FILE.write("\n" + str(line) + "\n")
                 elif "}}" in str(line) and book_found:
                     book_found = False
-                    """if counter == 1:
+                    WIKI_FILE.write(str(line) + "\n")
+                    # uncomment this if you want only 2 items from wiki as an example
+                    if counter == 1:
                         break
-                    counter = counter + 1"""
+                    counter = counter + 1
                 elif book_found and created_record and line:
                     #print(line)
                     self.append_item_detail(str(line))
+                    WIKI_FILE.write(str(line) + "\n")
 
 
-        """print("0")
-        data_dict = xmltodict.parse(xml_file)
-        print("1")
-        json_data = json.dumps(data_dict)
-        print("2")
-
-        for idx, line in enumerate(json_data):
-            line_json = json.loads(line)
-            print(line_json)
-            if idx == 3:
-                break"""
-
-    """def get_tag_name(self, item):
-        output = item.rfind("}")
-        if output != -1:
-            tag_name = item[output + 1]
-        else:
-            tag_name = -1
-        return tag_name
-
-    def open_bz_file(self, path_to_file):
-        with bz2.BZ2File(path_to_file, "r") as xml_file:
-            num = 0
-            for idx, line in enumerate(xml_file):
-                if line and "Infobox book" in str(line):
-                    print(line)
-
-                    break
-
-            for event, elem in etree.iterparse(xml_file, events=('start', 'end')):
-                tag = self.get_tag_name(elem.tag)
-                if tag != -1:
-                    if event != 'start':
-                        if elem.text and "Infobox book" in elem.text:
-                            print(elem.text)"""
-
-
-test = WikiParser()
-test.open_bz_file(WIKI_FILE_PATH_1)
-print(LIST_OF_BOOKS)
+if __name__ == '__main__':
+    test = WikiParser()
+    test.open_bz_file(WIKI_FILE_PATH_1)
+    print(json.dumps(LIST_OF_BOOKS, indent=3))
