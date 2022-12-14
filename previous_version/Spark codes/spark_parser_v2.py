@@ -142,20 +142,36 @@ def parsing(line):
     elif book_found and created_record and line:
         append_item_detail(str(line))
 
+
 def test_method(line):
-    return "Ahoj"
+    return str(line)
+
 
 if __name__ == '__main__':
     start = time.time()
 
-    # path to unzipped xml file (wiki dump)
-    f = sc.textFile("/enwiki-latest-pages-articles-multistream1.xml-p1p41242")
-    df = spark.createDataFrame(f, StringType()).toDF("text")
+    xmlSchema = StructType([ \
+        StructField('revision', StructType([
+            StructField('text', StringType(), True),
+            StructField('Infobox book', StringType(), True)
+        ]))
+    ])
 
-    wiki_rdd = df.rdd.map(lambda line: parsing(line)).filter(lambda line: line != None)
+    df = spark.read.format('xml')\
+        .options(rowTag="page")\
+        .load("src/enwiki-latest-pages-articles-multistream1.xml-p1p41242", schema=xmlSchema)
+
+    wiki_rdd = df.rdd.map(lambda line: test_method(line))
+    wiki_rdd.saveAsTextFile("./books_v2")
+
+    # path to unzipped xml file (wiki dump)
+    #f = sc.textFile("/enwiki-latest-pages-articles-multistream1.xml-p1p41242")
+    #df = spark.createDataFrame(f, StringType()).toDF("text")
+
+    #wiki_rdd = df.rdd.map(lambda line: parsing(line)).filter(lambda line: line != None)
 
     # path to the destination of directory (only books from infoboxes)
-    wiki_rdd.saveAsTextFile("./books_v1")
+    # wiki_rdd.saveAsTextFile("./books_v1")
 
     end = time.time()
     print(end - start)

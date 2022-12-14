@@ -6,9 +6,9 @@ import regex_dir.regex_expressions as re_exp
 
 from queue import Empty
 
-WIKI_FILE_PATH_1 = "src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.bz2"
-WIKI_FILE_PATH_2 = "src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
-WIKI_FILE_PATH_3 = "src/enwiki-20220920-pages-meta-current.xml.bz2"
+WIKI_FILE_PATH_1 = "../../src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.bz2"
+WIKI_FILE_PATH_2 = "../../src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
+WIKI_FILE_PATH_3 = "../../src/enwiki-20220920-pages-meta-current.xml.bz2"
 empty_book = {
     'name': [],
     'author': [],
@@ -145,7 +145,7 @@ class WikiParserRegex_test:
             try:
                 item = writing_queue.get(block=False)
                 if item is not None:
-                    with open("output_dir/parsing_output.json", "a", encoding='utf-8') as json_file:
+                    with open("../../output_dir/parsing_output.json", "a", encoding='utf-8') as json_file:
                         if written and empty_book != item:
                             json_file.write(',\n')
                             json.dump(item, json_file, ensure_ascii=False)
@@ -157,7 +157,7 @@ class WikiParserRegex_test:
                 continue
             # check for stop
             if item is None:
-                with open("output_dir/parsing_output.json", "a", encoding='utf-8') as json_file:
+                with open("../../output_dir/parsing_output.json", "a", encoding='utf-8') as json_file:
                     json_file.write(']')
                     json_file.close()
                 print('Writer: Done', flush=True)

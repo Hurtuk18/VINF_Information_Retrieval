@@ -3,11 +3,11 @@ import json
 
 from datetime import datetime
 
-WIKI_FILE_PATH_1 = "src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.bz2"
-WIKI_FILE_PATH_2 = "src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
+WIKI_FILE_PATH_1 = "../../src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.bz2"
+WIKI_FILE_PATH_2 = "../../src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
 START_TIME = ""
 LIST_OF_BOOKS = []
-WIKI_FILE = open("wiki_file_test.txt", "a")
+WIKI_FILE = open("../../wiki_file_test.txt", "a")
 
 """
 {{Infobox book

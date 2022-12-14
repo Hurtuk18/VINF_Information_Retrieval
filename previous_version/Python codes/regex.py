@@ -4,8 +4,8 @@ import bz2
 
 import regex_dir.regex_expressions as re_exp
 
-WIKI_FILE_PATH_1 = "src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.bz2"
-WIKI_FILE_PATH_2 = "src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
+WIKI_FILE_PATH_1 = "../../src/enwiki-latest-pages-articles-multistream1.xml-p1p41242.bz2"
+WIKI_FILE_PATH_2 = "../../src/enwiki-latest-pages-articles-multistream10.xml-p4045403p5399366.bz2"
 START_TIME = ""
 LIST_OF_BOOKS = []
 

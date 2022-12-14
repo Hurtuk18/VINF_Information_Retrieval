@@ -1,1 +1,8 @@
 /src
+/output_dir
+/final_books
+.devcontainer
+.ipynb_checkpoints
+docker-compose.yml
+Pipfile
+Pipfile.lock
