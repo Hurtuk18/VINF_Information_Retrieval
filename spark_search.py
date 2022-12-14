@@ -293,7 +293,7 @@ if __name__ == '__main__':
     print("Welcome to WikiParser! :)")
 
     # If you want to run unit tests set variable 'test' as True, otherwise False
-    test = True
+    test = False
     if test:
         print("Running tests...")
         unittest.main()
